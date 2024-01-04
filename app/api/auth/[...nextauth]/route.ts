@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import Credentials from 'next-auth/providers/credentials';
 import env from '@/config/env';
 
-export const Options: NextAuthOptions = {
+const Options: NextAuthOptions = {
   secret: env.nextAuthSecret,
   providers: [
     Credentials({
