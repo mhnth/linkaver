@@ -16,3 +16,11 @@ export const addCollection = async (email: string, name: string) => {
     },
   });
 };
+
+export const deleteCollection = async (id: string) => {
+  await prisma?.collection.delete({
+    where: {
+      id: id,
+    },
+  });
+};
