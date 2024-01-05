@@ -1,7 +1,8 @@
 'use client';
 
-import { UIProvider, useUI } from '@/components/useUI';
+import { UIProvider } from '@/components/useUI';
 import { ModalUI } from '@/components/modal/modal';
+import { NavBar } from '@/components/nav-bar';
 
 export default function RootLayoutClient({
   children,
@@ -12,6 +13,7 @@ export default function RootLayoutClient({
     <UIProvider>
       <ModalUI />
       {children}
+      <NavBar />
     </UIProvider>
   );
 }

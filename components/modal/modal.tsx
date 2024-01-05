@@ -38,8 +38,6 @@ const ModelView: React.FC<{
   modalView: string;
   closeModal: () => void;
 }> = ({ modalView, closeModal }) => {
-  console.log('view', modalView);
-
   return (
     <Modal onOutsideClick={closeModal}>
       {modalView === 'collection' && <AddCollectionView />}

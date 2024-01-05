@@ -1,14 +1,17 @@
 'use client';
 
-import { addCollection } from '@/app/_actions/addCollection';
+import { addCollection } from '@/app/_actions/collection-actions';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { useSWRConfig } from 'swr';
+import { useUI } from '../useUI';
 
 interface AddCollectionProps {}
 
 export const AddCollectionView: React.FC<AddCollectionProps> = ({}) => {
   const [input, setInput] = useState<string>();
+  const { closeModal } = useUI();
+
   const session = useSession();
 
   const { mutate } = useSWRConfig();
@@ -25,6 +28,7 @@ export const AddCollectionView: React.FC<AddCollectionProps> = ({}) => {
     }
 
     mutate('api/collection');
+    closeModal();
   };
 
   return (

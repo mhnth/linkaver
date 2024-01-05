@@ -5,7 +5,6 @@ import { getCurrentUser } from '@/lib/session';
 
 export const addLink = async (rows: { link: string; collection: string }[]) => {
   const currentUser = await getCurrentUser();
-  console.log('add row', rows);
 
   for (const row of rows) {
     // Find or create the user based on email
@@ -35,4 +34,12 @@ export const addLink = async (rows: { link: string; collection: string }[]) => {
   }
 
   return 'ok';
+};
+
+export const deleteLink = async (id: string) => {
+  await prisma?.link.delete({
+    where: {
+      id: id,
+    },
+  });
 };

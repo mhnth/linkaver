@@ -59,8 +59,6 @@ export const UIProvider: React.FC<{ children?: ReactNode }> = (props) => {
   const closeModal = () => dispatch({ type: 'CLOSE_MODAL' });
 
   const setModalView = (view: MODAL_VIEWS) => {
-    console.log('input modal', view);
-
     dispatch({ type: 'SET_MODAL_VIEW', view: view });
   };
 

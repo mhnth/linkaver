@@ -1,23 +1,29 @@
 'use client';
 
-import { addLink } from '@/app/_actions/addLink';
+import { addLink } from '@/app/_actions/link-action';
 import { fetcherCollections } from '@/lib/fetcher';
 import { cx } from '@/lib/utils';
 import React, { useState } from 'react';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
+import { useUI } from '../useUI';
 
 interface AddLinkProps {}
 
 export const AddLinkView: React.FC<AddLinkProps> = ({}) => {
+  const { closeModal } = useUI();
   const {
     data: collections,
     error,
     isLoading,
   } = useSWR('api/collection', fetcherCollections);
+  const { mutate } = useSWRConfig();
+
+  const collectionId = window.location.pathname;
 
   const [err, setErr] = useState<boolean>(false);
+
   const [rows, setRows] = useState<{ link: string; collection: string }[]>([
-    { link: '', collection: collections ? collections[0].name : '' },
+    { link: '', collection: collections?.length ? collections[0].name : '' },
   ]);
 
   const hdAddLink = async () => {
@@ -25,7 +31,6 @@ export const AddLinkView: React.FC<AddLinkProps> = ({}) => {
     const filteredRows = rows.filter(
       (row) => row.link !== '' && row.collection !== '',
     );
-    console.log('row fill', rows);
 
     if (filteredRows.length < 1) return;
 
@@ -40,6 +45,9 @@ export const AddLinkView: React.FC<AddLinkProps> = ({}) => {
 
       console.log('Error add collection: \n', error);
     }
+
+    mutate(`api/collection${collectionId}`);
+    closeModal();
   };
 
   const hdChangeRowInput = (
@@ -67,7 +75,7 @@ export const AddLinkView: React.FC<AddLinkProps> = ({}) => {
   const hdAddRow = () => {
     const newRows = [
       ...rows,
-      { link: '', collection: collections ? collections[0].name : '' },
+      { link: '', collection: collections?.length ? collections[0].name : '' },
     ];
 
     setRows(newRows);
@@ -98,13 +106,14 @@ export const AddLinkView: React.FC<AddLinkProps> = ({}) => {
                          text-sm text-gray-50 focus:border-gray-300 focus:ring-gray-500"
               onChange={(e) => hdSelectChange(i, e.target.value)}
             >
-              {collections?.map((c, i) => {
-                return (
-                  <option key={i} value={c.name}>
-                    {c.name}
-                  </option>
-                );
-              })}
+              {collections &&
+                collections?.map((c, i) => {
+                  return (
+                    <option key={i} value={c.name}>
+                      {c.name}
+                    </option>
+                  );
+                })}
             </select>
           </div>
         );

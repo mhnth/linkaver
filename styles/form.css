@@ -1,31 +1,26 @@
 .form {
-  @apply flex w-full flex-col;
+  @apply flex w-full flex-col px-4 py-2;
 }
 
 .form_input {
-  @apply mt-2 flex flex-col;
+  @apply relative z-0 mt-5 w-full;
 }
 
 .form_lbl {
   @apply text-sm font-semibold text-gray-600;
 }
 
-.m_input {
-  @apply mt-1 flex w-full items-center rounded-md border border-gray-300 bg-gray-200 px-4 py-2 text-gray-800;
+.form_label {
+  @apply absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-base text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-gray-400 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4;
+}
 
-  &:hover {
-    @apply border border-teal-400;
-  }
+.m_input {
+  @apply block w-full appearance-none border-0 border-b-2 border-gray-400 bg-transparent px-0 py-2.5 text-gray-50 focus:border-gray-300 focus:outline-none focus:ring-0;
 
   &:focus-visible,
   &:focus {
-    @apply outline-teal-400;
     outline-width: 2px;
     outline-style: solid;
-  }
-
-  &::placeholder {
-    @apply text-sm;
   }
 }
 
@@ -38,17 +33,21 @@
 }
 
 .form_btn {
-  @apply mt-6 flex justify-center rounded-md bg-teal-500 p-2.5 text-grey-50 !important;
+  @apply mt-20 flex justify-center rounded-sm border border-gray-400 p-2.5 text-grey-300 !important;
   box-shadow:
-    inset 0 1.5px 0 hsl(171, 77%, 64%),
+    inset 0 1.5px 0 hsl(0, 0%, 0%),
     0 4px 6px hsla(0, 0%, 0%, 0.2);
 
   &:hover {
-    @apply bg-primary-700 !important;
+    @apply bg-gray-200 text-gray-900 !important;
     box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
   }
 }
 
 .form_more {
-  @apply mt-6 flex items-center justify-center text-sm text-grey-500;
+  @apply mt-6 flex items-center justify-center text-sm text-grey-300;
+
+  &:hover {
+    @apply text-gray-200 underline;
+  }
 }

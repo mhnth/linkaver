@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Spinner } from '@/components/ui';
+import { signIn } from 'next-auth/react';
 
 interface SignupFormProps {}
 
@@ -31,12 +32,20 @@ export const SignupForm: React.FC<SignupFormProps> = ({}) => {
       .post('/api/signup', data)
       .then((res) => {
         console.log(res);
+        if (res.status !== 500) {
+          signIn('credentials', {
+            email: user.email,
+            password: user.password,
+            redirect: true,
+            callbackUrl: '/',
+          });
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => router.push('/'));
   };
   return (
-    <div className="w-full max-w-md rounded-md bg-white p-6">
+    <div className="w-full max-w-md rounded-md">
       <form
         action=""
         method="post"
@@ -45,30 +54,44 @@ export const SignupForm: React.FC<SignupFormProps> = ({}) => {
       >
         <div className="form_input">
           <input
-            className="m_input"
+            className="m_input peer"
+            id="floating_name"
             type="text"
             name="name"
-            placeholder="Username"
+            placeholder=""
+            required
             onChange={(e) => setUser({ ...user, name: e.target.value })}
           />
+          <label htmlFor="floating_name" className="form_label">
+            Name
+          </label>
         </div>
         <div className="form_input">
           <input
-            className="m_input"
+            className="m_input peer"
+            id="floating_email"
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder=""
+            required
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
+          <label htmlFor="floating_email" className="form_label">
+            Email
+          </label>
         </div>
         <div className="form_input">
           <input
-            className="m_input"
+            className="m_input peer"
             type="password"
             name="password"
-            placeholder="**********"
+            placeholder=""
+            required
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
+          <label htmlFor="floating_email" className="form_label">
+            Password
+          </label>
         </div>
         <button type="submit" className="form_btn">
           {isPending ? <Spinner /> : 'Sign Up'}
